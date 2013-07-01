@@ -1,0 +1,10 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: ELCHILEN0
+website: http://www.novuscraft.org
+main: com.TeamNovus.Arenas.Arenas
+commands:
+   arena:
+     description: The main command for all Arena commands.
+     aliases: [arenas]
