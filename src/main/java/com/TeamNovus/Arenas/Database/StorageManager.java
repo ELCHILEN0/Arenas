@@ -1,7 +1,6 @@
 package com.TeamNovus.Arenas.Database;
 
 import java.io.File;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -58,15 +57,15 @@ public class StorageManager {
 		database.connect();
 	}
 
-	public void loadPlayers() {
-		List<SNPlayer> players = database.findAll(SNPlayer.class);
-
-		for(SNPlayer p : players) {
-			SNPlayers.i.attach(p);
-		}
-	}
-
-	public void savePlayers() {	
-		database.saveAll(SNPlayers.i.getAllPlayers());
-	}
+//	public void loadPlayers() {
+//		List<SNPlayer> players = database.findAll(SNPlayer.class);
+//
+//		for(SNPlayer p : players) {
+//			SNPlayers.i.attach(p);
+//		}
+//	}
+//
+//	public void savePlayers() {	
+//		database.saveAll(SNPlayers.i.getAllPlayers());
+//	}
 }

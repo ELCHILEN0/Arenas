@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.TeamNovus.Arenas.Models.Arena;
+import com.TeamNovus.Arenas.Models.Arena.Arena;
 
 public class ArenaCollection {
 	private List<Arena> arenas = new ArrayList<Arena>();

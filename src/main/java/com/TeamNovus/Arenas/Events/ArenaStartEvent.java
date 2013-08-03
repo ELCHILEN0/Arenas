@@ -3,7 +3,7 @@ package com.TeamNovus.Arenas.Events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.TeamNovus.Arenas.Models.Arena;
+import com.TeamNovus.Arenas.Models.Arena.Arena;
 
 public class ArenaStartEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();

@@ -10,87 +10,67 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.TeamNovus.Arenas.Arenas;
-import com.TeamNovus.Arenas.Colors;
 import com.TeamNovus.Arenas.Permission;
 
 public class BaseCommandExecutor implements CommandExecutor, TabCompleter {
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {		
-		if(args.length == 0) {			
-			sender.sendMessage(Colors.EXTRA + "__________________.[ " + Colors.HIGHLIGHT + Arenas.getPlugin().getName() + Colors.EXTRA + " ].__________________");
-			sender.sendMessage(Colors.TITLE + "Version: " 		+ Colors.TEXT + Arenas.getPlugin().getDescription().getVersion());
-			sender.sendMessage(Colors.TITLE + "Description: " 	+ Colors.TEXT + Arenas.getPlugin().getDescription().getDescription());
-			sender.sendMessage(Colors.TITLE + "Author: " 		+ Colors.TEXT + Arenas.getPlugin().getDescription().getAuthors().get(0));
-			sender.sendMessage(Colors.TITLE + "Website: " 		+ Colors.TEXT + Arenas.getPlugin().getDescription().getWebsite());
-			sender.sendMessage(Colors.EXTRA + "---------------------------------------------------");
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		if(args.length == 0) {
+			PluginDescriptionFile desc = Arenas.getPlugin().getDescription();
+			
+			sender.sendMessage(CommandManager.getExtra() + "__________________.[ " + CommandManager.getHighlight() + desc.getName() + CommandManager.getExtra() + " ].__________________");
+			sender.sendMessage(CommandManager.getDark() + "Description: " + CommandManager.getLight() + desc.getDescription());
+			sender.sendMessage(CommandManager.getDark() + "Author: " + CommandManager.getLight() + desc.getAuthors().get(0));
+			sender.sendMessage(CommandManager.getDark() + "Version: " + CommandManager.getLight() + desc.getVersion());
+			sender.sendMessage(CommandManager.getDark() + "Website: " + CommandManager.getLight() + desc.getWebsite());
+			sender.sendMessage(CommandManager.getExtra() + "---------------------------------------------------");
 			return true;
 		}
 		
 		if(CommandManager.getCommand(args[0]) == null) {
-			sender.sendMessage(Colors.ERROR + "The specified command was not found!");
+			sender.sendMessage(CommandManager.getError() + "The specified command was not found!");
 			return true;
 		}
 		
 		BaseCommand command = CommandManager.getCommand(args[0]);
 		Object[] commandArgs = ArrayUtils.remove(args, 0);
 		
-		if(sender instanceof Player && !(command.isPlayerCommand())) {
-			sender.sendMessage(Colors.ERROR + "This command cannot be ran as a player!");
+		if(sender instanceof Player && !(command.player())) {
+			sender.sendMessage(CommandManager.getError() + "This command cannot be ran as a player!");
 			return true;
 		}
 		
-		if(sender instanceof ConsoleCommandSender && !(command.isConsoleCommand())) {
-			sender.sendMessage(Colors.ERROR + "This command cannot be ran from the console!");
+		if(sender instanceof ConsoleCommandSender && !(command.console())) {
+			sender.sendMessage(CommandManager.getError() + "This command cannot be ran from the console!");
 			return true;
 		}
 		
-		if(command.getPermission() != null && !(command.getPermission().equals(Permission.NONE)) && !(Permission.has(command.getPermission(), sender))) {
-			sender.sendMessage(command.getPermissionMessage());
+		if(command.permission() != null && !(command.permission().equals(Permission.NONE)) && !(Permission.has(command.permission(), sender))) {
+			sender.sendMessage(CommandManager.getError() + "You do not have permission for this command!");
 			return true;
 		}
 		
-		if((commandArgs.length < command.getMin()) || (commandArgs.length > command.getMax() && command.getMax() != -1)) {
-			sender.sendMessage(Colors.ERROR + "Usage: /" + commandLabel + " " + command.getAliases()[0] + " " + command.getUsage());
+		if((commandArgs.length < command.min()) || (commandArgs.length > command.max() && command.max() != -1)) {
+			sender.sendMessage(CommandManager.getError() + "Usage: /" + commandLabel + " " + command.aliases()[0] + " " + command.usage());
 			return true;
 		}
 		
-		return command.onCommand(sender, cmd, commandLabel, args);
+		CommandManager.execute(command, sender, cmd, commandLabel, commandArgs);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		return true;
 	}
 	
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if(args.length == 0) {
-			ArrayList<String> list = new ArrayList<String>();
-			
-			for(BaseCommand command : CommandManager.getCommands()) {
-				for(String alias : command.getAliases()) {
-					list.add(alias);
-				}
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {	
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for(BaseCommand command : CommandManager.getCommands()) {
+			for(String alias : command.aliases()) {
+				list.add(alias);
 			}
-			
-			return list;		
 		}
 		
-		ArrayList<BaseCommand> commands = CommandManager.getBestCommands(args[args.length - 1]);
-		
-		switch (commands.size()) {
-		case 0:
-			return new ArrayList<String>();
-			
-		case 1:
-			return commands.get(0).onTabComplete(sender, cmd, commandLabel, args);
-
-		default:
-			ArrayList<String> list = new ArrayList<String>();
-			
-			for(BaseCommand command : commands) {
-				for(String alias : command.getAliases()) {
-					list.add(alias);
-				}
-			}
-			
-			return list;			
-		}
+		return list;		
 	}
 }

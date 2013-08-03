@@ -4,8 +4,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-import com.TeamNovus.Arenas.Models.Arena;
 import com.TeamNovus.Arenas.Models.ArenaPlayer;
+import com.TeamNovus.Arenas.Models.Arena.Arena;
 
 public class PlayerJoinArenaEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();

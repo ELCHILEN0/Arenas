@@ -3,8 +3,8 @@ package com.TeamNovus.Arenas.Events;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-import com.TeamNovus.Arenas.Models.Arena;
 import com.TeamNovus.Arenas.Models.ArenaPlayer;
+import com.TeamNovus.Arenas.Models.Arena.Arena;
 
 public class PlayerLeaveArenaEvent extends PlayerEvent {
 	private static final HandlerList handlers = new HandlerList();

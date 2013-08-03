@@ -1,10 +1,12 @@
-package com.TeamNovus.Arenas.Models;
+package com.TeamNovus.Arenas.Models.Arena;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+
+import com.TeamNovus.Arenas.Models.ArenaPlayer;
 
 public class Team {
 	private String name;
